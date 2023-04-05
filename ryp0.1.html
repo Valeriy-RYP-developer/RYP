@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ряп устойчивый</title>
+<style>
+#file{
+margin-left: 13%;
+}
+#loading{
+margin-left: 13%;
+cursor: pointer;
+user-select: none;
+}
+#textarea{
+width: 98%;
+border: 0px;
+color: Olive;
+margin-left: 1%;
+background-color: white;
+font-size: 20px;
+font-family: Verdana;
+outline: none;
+}
+#translate{
+background-color: Aquamarine;
+text-align: center;
+cursor: pointer;
+margin: 2px;
+font-family: Arial;
+border-radius: 20px;
+margin-left: 13%;
+margin-right: 13%;
+user-select: none;
+}
+#result{
+width: 98%;
+border: 0px;
+color: Olive;
+margin-left: 1%;
+background-color: black;
+font-size: 20px;
+font-family: Verdana;
+outline: none;
+float: left;
+}
+#copy{
+background-color: green;
+text-align: center;
+cursor: pointer;
+font-family: Arial;
+border-radius: 20px;
+margin-left: 13%;
+margin-right: 13%;
+user-select: none;
+}
+</style>
+</head>
+<body style="margin: 0;font-size: 20px;background-color: grey">
+<button onclick="consoleclear();перевести();" style="background-color: LimeGreen; cursor: pointer; border-radius: 20px; margin-left: 1%; user-select: none;">сохранить</button>
+<input type="file" id="file">
+<button id="loading">Загрузить код из файла</button>
+<textarea id="textarea" cols="50" rows="10"></textarea>
+<button id="translate" onclick="document.getElementById('translate').innerHTML = 'СТОП!';перевести(); if(r==1){r=-r;location.reload()} if((allText.split(cov).length - 1) / 2 == Math.floor(allText.split(cov).length - 1) / 2){document.getElementById('ryp').innerHTML = allText}else{document.getElementById('ryp').innerHTML = allText + '\nalert(sis)'} перевести();r=-r">ПЕРЕВЕСТИ И ЗАПУСТИТЬ!</button>
+<textarea id="result" cols="50" rows="10"></textarea>
+<button id="copy" onclick="consoleclear();перевести();document.getElementById('textarea').value = allText; document.getElementById('textarea').select();document.execCommand('copy');document.getElementById('textarea').value = localStorage.getItem('allText1'); document.getElementById('copy').innerHTML = 'СКОПИРОВАНО';">КОПИРОВАТЬ JS!</button>
+<canvas id="canvas" style="margin-bottom: 3px; display: block" onclick="принажатиинахолст()"></canvas>
+<script type="text/javascript">
+allText = document.getElementById('textarea').value;
+document.getElementById('textarea').value = localStorage.getItem('allText1');
+allText = document.getElementById('textarea').value;
+var r=-1, cov = '"', sis = "Если ваш код не сработал, то, наверняка причина кроется в незакрытой ковычке", flag = false;
+consolelog(allText);
+function changeCode(ryap, js){
+allText = allText.replace(ryap, js);
+}
+function consolelog(argument) {
+document.getElementById("result").innerHTML = argument;
+}
+function consoleclear() {
+document.getElementById("result").innerHTML = "";
+}
+перевести();
+
+if (localStorage.getItem('allText1') == "") document.getElementById('textarea').value = "/*Введите ваш код на РЯП в белом окне ниже (перевод будет в черном окне):*/\n"
+
+document.getElementById("loading").addEventListener('click', function(){
+let file = document.getElementById('file').files[0];
+let reader = new FileReader();
+reader.readAsText(file);
+reader.onload = function () {
+allText = reader.result;
+document.getElementById('textarea').value = allText;
+}
+})
+
+document.onkeydown = function (KeyboardEvent) {
+if (KeyboardEvent.key == "Shift"){flag = true}
+if (flag == true && KeyboardEvent.сode == "KeyS"){alert(6);}
+consoleclear();
+i = 0;
+перевести();
+document.getElementById('copy').innerHTML = 'КОПИРОВАТЬ JS!';
+}
+
+function перевести() {
+allText = document.getElementById('textarea').value;
+localStorage.setItem('allText1', allText);
+
+changeCode(/html элемент с айди /gi,"document.getElementById(");
+changeCode(/ его html содержание/gi,".innerHTML");
+changeCode(/ получение двухмерного контекста/gi,".getContext('2d')");
+changeCode(/содержание холста/gi,"ctx=document.getElementById('canvas').getContext('2d')");
+changeCode(/НП/gi,"нарисовать прямоугольник");
+changeCode(/нарисовать прямоугольник /gi,"ctx.fillRect(");
+changeCode(/нарисовать прямоугольник/gi,"ctx.fillRect");
+changeCode(/цвет заливки /gi,"ctx.fillStyle=");
+changeCode(/цвет линии /gi,"ctx.strokeStyle=");
+changeCode(/ширина линии /gi,"ctx.lineWidth=");
+changeCode(/высота холста/gi,"document.getElementById('canvas').height");
+changeCode(/ширина холста/gi,"document.getElementById('canvas').width");
+changeCode(/очистить холст/gi,'предыдущийцвет=ctx.fillStyle;ctx.fillStyle="white";ctx.fillRect(0,0,document.getElementById("canvas").width,document.getElementById("canvas").height);ctx.fillStyle=предыдущийцвет');
+changeCode(/высота окна/gi,"window.innerHeight");
+changeCode(/ширина окна/gi,"window.innerWidth");
+changeCode(/рисовка линий/gi,"ctx.beginPath()");
+
+changeCode(/ПЛИТ/g,"провести линию из точки");
+changeCode(/провести линию из точки /gi,"ctx.moveTo(");
+changeCode(/провести линию из точки/gi,"ctx.moveTo");
+
+changeCode(/ПЛВТ/g,"провести линию в точку");
+changeCode(/провести линию в точку /gi,"ctx.lineTo(");
+changeCode(/провести линию в точку/gi,"ctx.lineTo");
+
+changeCode(/ЗРЛ/g,"завершить рисовку линий");
+changeCode(/завершить рисовку линий /gi,"ctx.stroke()");
+changeCode(/завершить рисовку линий/gi,"ctx.stroke()");
+changeCode(/ПЛИПТВП/g,"провести линию из первой точки в последнюю");
+changeCode(/провести линию из первой точки в последнюю/gi,"ctx.closePath()");
+changeCode(/ пикселей/gi,"px");
+changeCode(/заполнить/gi,"ctx.fill()");
+
+changeCode(/интервал/gi,"setInterval");
+changeCode(/ПФ/g,"повернуть фигуру");
+changeCode(/повернуть фигуру/gi,"ctx.rotate");
+changeCode(/интервал /gi,"setInterval(");
+changeCode(/повернуть фигуру /gi,"ctx.rotate(");
+
+changeCode(/размер шрифт текста /gi,"ctx.font=");
+
+changeCode(/нарисовать текст /gi,"ctx.fillText(");
+changeCode(/нарисовать текст/gi,"ctx.fillText");
+
+changeCode(/зелено-желтый/gi,'"GreenYellow"');
+changeCode(/лаймовый/gi,'"Lime"');
+changeCode(/светло-зеленый/gi,'"LightGreen"');
+changeCode(/лаймово-зеленый/gi,'"LimeGreen"');
+changeCode(/темно-зеленый/gi,'"DarkGreen"');
+changeCode(/желто-зеленый/gi,'"YellowGreen"');
+changeCode(/темно-оливково-зеленый/gi,'"DarkOliveGreen"');
+changeCode(/водный/gi,'"Aqua"');
+changeCode(/аквамариновый/gi,'"Aquamarine"');
+changeCode(/темно-синий/gi,'"DarkBlue"');
+changeCode(/снежный/gi,'"Snow"');
+changeCode(/азуровый/gi,'"Azure"');
+changeCode(/темно-серый/gi,'"DarkGrey"');
+changeCode(/серебрянный/gi,'"Silver"');
+changeCode(/светло-серый/gi,'"LightGrey"');
+changeCode(/желтый/gi,'"yellow"');
+changeCode(/розовый/gi,'"pink"');
+changeCode(/зеленый/gi,'"green"');
+changeCode(/серый/gi,'"grey"');
+changeCode(/черный/gi,'"black"');
+changeCode(/белый/gi,'"white"');
+changeCode(/синий/gi,'"blue"');
+changeCode(/красный/gi,'"red"');
+changeCode(/оранжевый/gi,'"orange"');
+changeCode(/дьявольский/gi,'"#666"');
+changeCode(/фиолетовый/gi,'"purple"');
+changeCode(/коричневый/gi,'"brown"');
+changeCode(/оливковый/gi,'"Olive"');
+changeCode(/индиго/gi,'"Indigo"');
+changeCode(/золотой/gi,'"Gold"');
+
+changeCode(/тип данных в переменной /gi,"typeof(");
+changeCode(/тип данных в переменной/gi,"typeof");
+changeCode(/преобразовать строку в число /gi,"+");
+changeCode(/перенос строки/gi,"n");
+changeCode(/табуляция строки/gi,"t");
+changeCode(/вертикальная табуляция/gi,"v");
+changeCode(/строчный/gi,'"string"');
+changeCode(/числовой/gi,'"number"');
+changeCode(/переменная /gi,"var ");
+changeCode(/постоянная /gi,"const ");
+changeCode(/константа /gi,"const ");
+changeCode(/конст /gi,"const ");
+changeCode(/пост /gi,"const ");
+changeCode(/пер /gi,"let ");
+changeCode(/ равна /gi,"=");
+
+
+
+changeCode(/конвертация в JASON/gi,"JASON.stringifi(");
+changeCode(/конвертация из JASON/gi,"JASON.parce(");
+
+changeCode(/ перебор значений массива с его изменением /gi,".map(");
+changeCode(/ присоединить к массиву /gi,".concat(");
+changeCode(/ присоединить к массиву/gi,".concat");
+changeCode(/ клонировать/gi,".concat()");
+changeCode(/ поиск в массиве /gi,".indexOf(");
+changeCode(/ поиск в массиве/gi,".indexOf");
+changeCode(/ индекс в массиве /gi," in ");
+changeCode(/ в массиве /gi," of ");
+
+changeCode(/конвертировать значения обьекта в массив /gi,"Object.values(");
+changeCode(/преобразовать значения обьекта в массив /gi,"Object.values(");
+changeCode(/конвертировать значения обьекта в массив/gi,"Object.values");
+changeCode(/преобразовать значения обьекта в массив/gi,"Object.values");
+
+changeCode(/конвертировать ключи обьекта в массив /gi,"Object.keys(");
+changeCode(/преобразовать ключи обьекта в массив /gi,"Object.keys(");
+changeCode(/конвертировать ключи обьекта в массив/gi,"Object.keys");
+changeCode(/преобразовать ключи обьекта в массив/gi,"Object.keys");
+
+changeCode(/конвертировать обьект в массив /gi,"Object.entries(");
+changeCode(/преобразовать обьект в массив /gi,"Object.entries(");
+changeCode(/конвертировать обьект в массив/gi,"Object.entries");
+changeCode(/преобразовать обьект в массив/gi,"Object.entries");
+
+changeCode(/ перебор значений массива /gi,".forEach(");
+changeCode(/запись уникальных значений массива /gi,"...new Set(");
+changeCode(/ перебор значений массива с его изменением/gi,".map");
+changeCode(/ перебор значений массива/gi,".forEach");
+changeCode(/запись уникальных значений массива/gi,"...new Set");
+changeCode(/ количество элементов в массиве/gi,".length");
+changeCode(/ удалить последний элемент в массиве/gi,".pop()");
+changeCode(/ последний элемент в массиве/gi,".length-1");
+changeCode(/ отсортировать элементы в массиве /gi,".sort(");
+changeCode(/ сортировать элементы в массиве /gi,".sort(");
+changeCode(/ отсортировать элементы в массиве/gi,".sort");
+changeCode(/ сортировать элементы в массиве/gi,".sort");
+changeCode(/ преобразовать трехмерный массив в двухмерный/gi,".flat()");
+
+
+
+changeCode(/безимянная функция /gi,"function ( ");
+changeCode(/арг/gi,"аргументы");
+changeCode(/безимянная фун /gi,"function ( ");
+changeCode(/стрелочная функция /gi,"=>");
+changeCode(/СФ /g,"=>");
+changeCode(/функция /gi,"function ");
+changeCode(/фун /gi,"function ");
+changeCode(/не принимает аргументы/gi,"(");
+changeCode(/ принимает аргументы /gi,"(");
+changeCode(/ начало функции/gi,"){");
+changeCode(/ начало цикла/gi,"){");
+changeCode(/начало/gi,"{");
+changeCode(/конец функции/gi,"}");
+changeCode(/конец цикла/gi,"}");
+changeCode(/конец/gi,"}");
+changeCode(/вернуть /gi,'return ');
+
+changeCode(/окно с двумя кнопками /gi,'confirm(');
+changeCode(/окно с двумя кнопками/gi,'confirm');
+changeCode(/окно /gi,'alert(');
+changeCode(/окно/gi,'alert');
+changeCode(/вывод в консоль /gi,'console.log(');
+changeCode(/вывод в консоль/gi,'console.log');
+changeCode(/очистить консоль/gi,'console.clear()');
+
+changeCode(/значение от пользователя /gi,'prompt(');
+changeCode(/ЦЗОП /g,'+prompt(');
+changeCode(/ЗОП /g,'prompt(');
+changeCode(/цифровое значение от пользователя/gi,'+prompt');
+changeCode(/значение от пользователя/gi,'prompt');
+changeCode(/ЦЗОП/g,'+prompt');
+changeCode(/ЗОП/g,'prompt');
+
+changeCode(/математика-/gi,'Math.');
+changeCode(/целое случайное число до /gi,'round(Math.random()*');
+changeCode(/случайное число/gi,'random()');
+changeCode(/число пи/gi,'PI');
+changeCode(/число е/gi,'E');
+changeCode(/округлить /gi,'Math.round(');
+changeCode(/округлить/gi,'Math.round');
+
+changeCode(/запустить цикл если /gi,'while(');
+changeCode(/запустить бесконечный цикл /gi,'while(true){');
+changeCode(/запустить цикл /gi,'for(');
+changeCode(/цик/gi,'for(');
+changeCode(/усцик/gi,'while(');
+changeCode(/правда/gi,'true');
+changeCode(/истина/gi,'true');
+changeCode(/ложь/gi,'false');
+changeCode(/пусто/gi,'null');
+changeCode(/не число/gi,'NaN');
+changeCode(/бесконечность/gi,'Infinity');
+changeCode(/бескон/gi,'Infinity');
+changeCode(/нет значения/gi,'undefined');
+changeCode(/большеравно/gi,'>=');
+changeCode(/меньшеравно/gi,'<=');
+changeCode(/больше равно/gi,'>=');
+changeCode(/меньше равно/gi,'<=');
+changeCode(/ больше /gi,'>');
+changeCode(/ меньше /gi,'<');
+changeCode(/ строго равно /gi,'===');
+changeCode(/ строго не равно /gi,"!==");
+changeCode(/ не равно /gi,"!=");
+changeCode(/ равно /gi,"==");
+changeCode(/ и /gi,"&&");
+changeCode(/ или /gi,"||");
+changeCode(/ остаток от деления на /gi,"%");
+changeCode(/ в степени /gi,"**");
+changeCode(/удалить цифры после запятой у числа /gi,"~~");
+changeCode(/удалить цифры после точки у числа /gi,"~~");
+changeCode(/уд после точ /gi,"~~");
+changeCode(/удпослеточ /gi,"~~");
+
+changeCode(/если это выражение верно то присваеваем это значение /gi,"?");
+changeCode(/если это выражение не верно то присваеваем это значение /gi,":");
+changeCode(/ес выражение верно => /gi,"?");
+changeCode(/ес выражение не верно => /gi,"?");
+changeCode(/иначе присваеваем это значение /gi,":");
+changeCode(/если значение выражения /gi,"switch(");
+changeCode(/совпадает с /gi,"case ");
+changeCode(/тогда/gi,":");
+changeCode(/выход из ветвистой функции/gi,"break");
+changeCode(/если ни с чем не совпадает /gi,"defolt");
+changeCode(/иначе если/gi,"else if(");
+changeCode(/если /gi,"if(");
+changeCode(/иначе/gi,"else{");
+
+changeCode(/ то/gi,"){");
+
+changeCode(/при нажатии на кнопку /gi,'document.addEventListener("keydown", function (e)');
+changeCode(/код кнопки/gi,'e.keyCode');
+changeCode(/название кнопки/gi,'e.key');
+
+changeCode(/КОМАНДУ/gi,'changeCode(/');
+changeCode(/ ЗАМЕНИТЬ НА /gi,'/gi,"');
+
+changeCode(/дата по стандарту/gi,"new Date().toISOString()");
+
+changeCode(/<кнопка/gi,"<button");
+changeCode(/<!кнопка>/gi,"</button>");
+changeCode(/<контейнер/gi,"<div");
+changeCode(/<!контейнер>/gi,"</div>");
+changeCode(/<ссылка/gi,"<a");
+changeCode(/<!ссылка>/gi,"</a>");
+changeCode(/адрес="/gi,'href="');
+changeCode(/при нажатии на элемент="/gi,'onclick="');
+changeCode(/стиль="/gi,"");
+
+changeCode(/№! /gi,"let a = ");
+changeCode(/№!! /gi,"let b = ");
+changeCode(/№!!! /gi,"let c = ");
+changeCode(/№№ /gi,"let d = ");
+changeCode(/№№! /gi,"let e = ");
+changeCode(/№№!! /gi,"let f = ");
+changeCode(/№№!!! /gi,"let g = ");
+changeCode(/№№№ /gi,"let h = ");
+changeCode(/№№№! /gi,"let i = ");
+changeCode(/№№№!! /gi,"let k = ");
+changeCode(/№№№!!! /gi,"let j = ");
+changeCode(/№№№№ /gi,"let l = ");
+changeCode(/№№№№! /gi,"let m = ");
+
+changeCode(/ 	/gi,")");
+changeCode(/;	/gi,"; //");
+changeCode(/ ;/gi,");");
+changeCode(/однострочный комментарий/gi,"//");
+changeCode(/многострочный комментарий/gi,"/*");
+changeCode(/окончание многострочного комментария/gi,"*/");
+
+changeCode(/ПБ/g,'подключить библиотеку');
+changeCode(/подключить библиотеку расширенной работы с холстом/gi,`
+/*подключение библиотеки расширенной работы с холстом*/
+ctx=document.getElementById('canvas').getContext('2d');
+function покрасить_весь_холст_в(цветпокраски) {
+предыдущийцвет=ctx.fillStyle;
+ctx.fillStyle=цветпокраски;
+ctx.fillRect(0,0,document.getElementById("canvas").width,document.getElementById("canvas").height);
+ctx.fillStyle=предыдущийцвет;
+}
+function нарисовать_квадрат(у, х, ребро){
+    ctx.fillRect(у, х, ребро, ребро);
+}
+let стандарт=6.666;
+function размеры_холста (ширина, высота){
+    if(ширина==стандарт){
+        document.getElementById('canvas').height = window.innerHeight;
+        document.getElementById('canvas').width = window.innerWidth;
+    }
+    else{
+        document.getElementById('canvas').height = высота;
+        document.getElementById('canvas').width = ширина;
+    }
+}
+/*конец библиотеки. Дальше можете писать свой код!*/
+`);
+changeCode(/подключить библиотеку расширенной математики/gi,`
+/*подключение библиотеки расширенной математики*/
+function целое_случайное_число(макс, мин){
+	return Math.round(Math.random()*(макс-мин))+мин
+}
+function кв_корень(подкоренное_выражение){
+	if (подкоренное_выражение >= 0){
+		return подкоренное_выражение ** (1/2)
+	}
+	else{
+		return (-подкоренное_выражение) ** (1/2) + "i"
+	}
+}
+function куб_корень(подкоренное_выражение){
+	return подкоренное_выражение ** (1/3)
+}
+function корень(подкоренное_выражение, степень){
+	return подкоренное_выражение ** (1/степень)
+}
+function умножение (а, б){
+	if(typeof(а)=="string"){
+		var итог = "", р = 0
+		while(р<б){
+    		итог = итог + а
+    		р++;
+		}
+	return итог
+	}
+	if(typeof(б)=="string"){
+		var итог = "", р = 0
+		while(р<а){
+    		итог = итог + б
+    		р++;
+		}
+        return итог
+	}
+	if(typeof(а) == "number"&&typeof(б) == "number"){
+        return а * б
+	}
+}
+/*конец библиотеки. Дальше можете писать свой код!*/
+`);
+changeCode(/подключить библиотеку расширенной работы с текстом/gi,`
+/*подключение библиотеки расширенной работы с текстом*/
+function записать_в_массив_текст(текст){
+    let массив = []
+    for(символ of текст){
+        массив[массив.length] = символ
+    }
+    return массив
+}
+/*конец библиотеки. Дальше можете писать свой код!*/
+`);
+consolelog(allText);
+}
+</script>
+<script type="text/javascript" id="ryp"></script>
+</body>
+</html>
